@@ -1,5 +1,6 @@
 {
     "files.associations": {
-        "sysexits.h": "c"
+        "sysexits.h": "c",
+        "stdlib.h": "c"
     }
 }
