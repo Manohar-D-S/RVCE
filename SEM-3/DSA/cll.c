@@ -1,9 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-//         -> |====| --> |====| ---> |====| -----|
+//        |-> |====| --> |====| ---> |====| -----|
 //        |-------------------------------------|
-
 
 
 struct node
@@ -55,7 +54,7 @@ Node delete(Node tail, short mode){
     return tail;
 }
 
-void display(Node tail){
+void display(Node tail){                    //displays all node's data
     if(tail == NULL){
         printf("List is Empty\n");
         return;
