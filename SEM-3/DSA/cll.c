@@ -103,6 +103,8 @@ int main(int argc, char const *argv[])
                 display(list);
                 break;
             case 4:
+                while (list != NULL)
+                    list = delete(list, 0);
                 printf("Exiting...\n");
                 exit(0);
             default:
@@ -110,10 +112,7 @@ int main(int argc, char const *argv[])
         }
     }
 
-    while (list != NULL)
-    {
-        delete(list, 0);
-    }
+    
     
     
     return 0;
