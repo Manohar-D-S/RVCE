@@ -1,17 +1,17 @@
-//Program to add long integers using Circular Singly Linked List
+// Program to add long integers using Circular Singly Linked List (CSLL)
 
 /*
-ok so during our class today I was able to  figured out few methods to add 2 ints using LLs.
-This is one of it, basically the simplest noobie method.
-1. Take 2 numbers as strings(check if they are valid numbers)
-2. Based on the len of 2 strings(basically no of digits) creating current CSLL for both.
-3. Then traverse thru both the lists until they reach their respective last node(tail node) add their respective digits and insert the sum as node to the SUM LL.
-4. if there's current carry left out then add it another node to the SUM LL.
-5. then display the sum thats it.
+This program adds two large integers represented as strings using a single Circular Singly Linked List (CSLL).
 
-NOTE:Tail Node wont be considered for addition; its just to mark the lastnode, its possible to implement without using this tail node
+Steps:
+1. Input two numbers as strings and validate them.
+2. Traverse each string from the end to handle addition from the least significant digit.
+3. Add each pair of digits with carry and store the result directly into a SUM CSLL.
+4. If there's remaining carry after processing, insert it as an extra node.
+5. Display the final sum by traversing the SUM list in order.
+
+Note: We use only one CSLL (SUM) here, eliminating the need to store the numbers in separate lists.
 */
-
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -54,7 +54,7 @@ Node insertStart(Node list, short num) {
 
 int main(int argc, char const *argv[]) {
     system("cls");
-    char num1[20], num2[20];
+    char num1[40], num2[40];
     printf("Program to add Long Integers using Linked Lists\n\n");
     printf("ENTER THE FIRST NUMBER: ");
     scanf("%s", num1);
@@ -63,24 +63,18 @@ int main(int argc, char const *argv[]) {
 
     size_t len1 = strlen(num1), len2 = strlen(num2);
     Node SUM = createList();
-    short carry = 0;
-    // Populate linked lists A and B with digits of num1 and num2 in reverse order
-    for (short i = len1, j = len2, sum = 0; i >= 0 || j >= 0 || carry != 0; i--, j--) {
-        if (i > -1 && j > -1) {
-            sum = ((num2[j] - '0') + (num1[i] - '0') + carry ) % 10;
-            carry = ((num2[j] - '0') + (num1[i] - '0') + carry) / 10;
-        } else if (j > -1) {
-            sum = ((num1[i] - '0') + carry ) % 10;
-            carry = ((num1[i] - '0') + carry) / 10;
-        } else if(i > -1) {
-            sum = ((num2[j] - '0') + carry ) % 10;
-            carry = ((num2[j] - '0')    + carry) / 10;
-        }
-        SUM = insertStart(SUM, sum);
-    }
+    short carry = 0, sum = 0;
 
-    if (carry != 0) {  // Add any remaining carry as current new node
-        SUM = insertStart(SUM, carry);
+    // Traverse both numbers from the last digit to the first
+    for (int i = len1 - 1, j = len2 - 1; i >= 0 || j >= 0 || carry != 0; i--, j--) {
+        int digit1 = (i >= 0) ? num1[i] - '0' : 0;  // Get digit from num1 or 0 if out of bounds
+        int digit2 = (j >= 0) ? num2[j] - '0' : 0;  // Get digit from num2 or 0 if out of bounds
+
+        sum = digit1 + digit2 + carry; // Sum the digits and carry
+        carry = sum / 10; // Calculate new carry
+        sum = sum % 10;   // Calculate the current digit to store
+
+        SUM = insertStart(SUM, sum); // Insert the sum digit directly to SUM list
     }
 
     // Display the final sum
@@ -97,13 +91,3 @@ int main(int argc, char const *argv[]) {
 
     return 0;
 }
-
-
-/*And the other methods are,
-1. using current CDLL
-2. Initializing two LL for storing numbers and the using one of those two for storing the sum also
-3. scanning 2 i/p strings and while traversing each of them creating one CSLL that stores the sums directly(no lists for storing numbers)
-
-Well 1 & 3 are more efficient or even combining those 2 methods tooo
-
-*/
