@@ -22,11 +22,11 @@ NODE enqueue(NODE list, int* count) {
     NODE newNode = (NODE) malloc(sizeof(Node));
     newNode->data = data;
     
-    if (*count == -1) {  // Initialize first element in the circular queue
+    if (*count == -1) {  // first element
         list = newNode;
-        newNode->next = newNode;  // Self-loop for single element
+        newNode->next = newNode;  
     } else {
-        newNode->next = list->next;  // Insert new node at the start
+        newNode->next = list->next;   /*insert at end funciton, as queue adds new node at tail..., and tail is used as pointer in this CLLbased queue*/
         list->next = newNode;
     }
     
@@ -34,8 +34,8 @@ NODE enqueue(NODE list, int* count) {
     return newNode;  // Return updated tail of the list
 }
 
-NODE dequeue(NODE list, int *count, int silent) {
-    if (*count == -1) {  // Check if queue is empty
+NODE dequeue(NODE list, int *count, int silent) {   //the silent flag is for suppress the deletion messages when the dynamcic nodes are freed at the exit of the programm
+    if (*count == -1) {
         if (!silent) printf("List is empty\n");
         return NULL;
     } else if (list->next == list) {  // Handle dequeuing the last element
@@ -45,8 +45,7 @@ NODE dequeue(NODE list, int *count, int silent) {
         return NULL;
     }
 
-    // Standard dequeue: remove node at start of the circular queue
-    NODE del = list->next;
+    NODE del = list->next;  //the head node 
     list->next = del->next;
     if (!silent) printf("%d dequeued\n", del->data);
     free(del);
@@ -65,14 +64,14 @@ void display(NODE list, int count) {
     do {
         printf("%d\t", temp->data);
         temp = temp->next;
-    } while (temp != list->next);  // Traverse circularly until back to start
+    } while (temp != list->next);  // traverse till start
     printf("\n");
 }
 
 int main() {
-    NODE cll = NULL;  // Circular linked list (queue)
+    NODE cll = NULL;  // cll queue 
     int opt = 0;
-    int count = -1;  // Track number of elements in the queue
+    int count = -1;  // counter
     system("cls");
 	
     while (1) {
